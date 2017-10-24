@@ -1,0 +1,40 @@
+<!doctype HTML>
+<html>
+
+	<head>
+	</head>
+
+	<body>
+		<canvas id="canvas" width=512 height=512>
+	</body>
+
+	<script>
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		ctx.fillStyle = "red";
+		
+		function drawDot(posX, posY){
+			ctx.beginPath();
+			ctx.arc(posX, posY, 4, 0, 2 * Math.PI);
+			ctx.fill();
+		}
+
+		var mouseDown = false;
+
+		canvas.addEventListener("mousedown", function(e){
+			mouseDown = true;
+		});
+
+		canvas.addEventListener("mouseup", function(e){
+			mouseDown = false;
+		});
+
+		canvas.addEventListener("mousemove", function(e){
+			if (mouseDown){
+				drawDot(e.clientX, e.clientY);
+			}
+		});
+
+	</script>
+
+</html>
