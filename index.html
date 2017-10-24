@@ -4,6 +4,9 @@
 	<head>
 	</head>
 
+  <div>
+  <b>DRAW ON ME</b>
+  </div>
 	<body>
 		<canvas id="canvas" width=512 height=512>
 	</body>
@@ -12,7 +15,7 @@
 		var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d");
 		ctx.fillStyle = "red";
-		
+
 		function drawDot(posX, posY){
 			ctx.beginPath();
 			ctx.arc(posX, posY, 4, 0, 2 * Math.PI);
@@ -20,8 +23,18 @@
 		}
 
 		var mouseDown = false;
+    var touchDown = false;
+
+    canvas.addEventListener("touchstart", function(e){
+      touchDown = true;
+    });
+
+    canvas.addEventListener("touchend", function(e){
+      touchDown = false;
+    });
 
 		canvas.addEventListener("mousedown", function(e){
+      drawDot(e.clientX, e.clientY);
 			mouseDown = true;
 		});
 
@@ -34,6 +47,12 @@
 				drawDot(e.clientX, e.clientY);
 			}
 		});
+
+    canvas.addEventListener("touchmove", function(e){
+      if(touchDown){
+        drawDot(e.clientX, e.clientY);
+      }
+    });
 
 	</script>
 
