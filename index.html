@@ -7,12 +7,16 @@
   <div>
   <b>DRAW ON ME</b>
   </div>
+  <div>
+    <button type="button" id="SaveButton">Save</button>
+  </div>
 	<body>
 		<canvas id="canvas" width=512 height=512>
 	</body>
 
 	<script>
 		var canvas = document.getElementById("canvas");
+    var saveButton = document.getElementById("SaveButton").onclick = save;
 		var ctx = canvas.getContext("2d");
 		ctx.fillStyle = "red";
 
@@ -21,6 +25,15 @@
 			ctx.arc(posX, posY, 4, 0, 2 * Math.PI);
 			ctx.fill();
 		}
+
+    function save(){
+      var img = canvas.toDataURL("image/png");
+      document.write(
+        `<a download="canvasPic.png" href="` + img + `">
+            <img src="` + img + `"/ />
+        </a>`
+      );
+  }
 
 		var mouseDown = false;
     var touchDown = false;
