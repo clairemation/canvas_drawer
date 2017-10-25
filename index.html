@@ -3,15 +3,15 @@
 
 	<head>
 	</head>
+  <body>
 
-  <div>
-  <b>DRAW ON ME</b>
-  </div>
-  <div>
-    <button type="button" id="SaveButton">Save</button>
-  </div>
-	<body>
-		<canvas id="canvas" width=512 height=512>
+    <canvas id="canvas" width=320 height=240 style="border: 1px solid black"></canvas>
+    <div>
+    <b>DRAW ON ME</b>
+    </div>
+    <div>
+      <button type="button" id="SaveButton">Save</button>
+    </div>
 	</body>
 
 	<script>
@@ -27,13 +27,41 @@
 		}
 
     function save(){
-      var img = canvas.toDataURL("image/png");
+      var img = createPrintSize();
       document.write(
         `<a download="canvasPic.png" href="` + img + `">
             <img src="` + img + `"/ />
         </a>`
       );
-  }
+    }
+
+    function createPrintSize(){
+      var printSizeCanvas = document.createElement("canvas");
+      var printCtx = printSizeCanvas.getContext("2d");
+      printSizeCanvas.height = 96 * 10;
+      printSizeCanvas.width = 96 * 8;
+      
+      var imgPrintMultiplier = Math.floor(printSizeCanvas.height / canvas.width);
+      var imgPrintWidth = canvas.width * imgPrintMultiplier;
+      var imgPrintHeight = canvas.height * imgPrintMultiplier;
+
+      printCtx.translate (printSizeCanvas.width / 2, printSizeCanvas.height / 2);
+      printCtx.rotate(Math.PI / 2);
+
+      printCtx.rect(-imgPrintWidth/2, -imgPrintHeight/2, imgPrintWidth, imgPrintHeight);
+      printCtx.stroke();
+
+      printCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, -imgPrintWidth/2, -imgPrintHeight/2, imgPrintWidth, imgPrintHeight);
+
+      printCtx.fillStyle="orange";
+      printCtx.font = "30px Arial";
+      printCtx.textAlign = "center";
+      printCtx.fillText("Coloring app test", 0, imgPrintHeight / 2 - 20);
+
+      return printSizeCanvas.toDataURL("img/png");
+
+    }
+
 
 		var mouseDown = false;
     var touchDown = false;
