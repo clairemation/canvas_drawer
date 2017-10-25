@@ -11,12 +11,14 @@
     </div>
     <div>
       <button type="button" id="SaveButton">Save</button>
+        <button type="button" id="PrintButton">Print</button>
     </div>
 	</body>
 
 	<script>
 		var canvas = document.getElementById("canvas");
     var saveButton = document.getElementById("SaveButton").onclick = save;
+    var printButton = document.getElementById("PrintButton").onclick = print;
 		var ctx = canvas.getContext("2d");
 		ctx.fillStyle = "red";
 
@@ -26,13 +28,23 @@
 			ctx.fill();
 		}
 
+    function print(){
+      var img = createPrintSize();
+      var win = window.open('');
+      win.document.write('<img src="' + img + '" onload="window.print();window.close()" />');
+      win.focus();
+    }
+
     function save(){
       var img = createPrintSize();
-      document.write(
-        `<a download="canvasPic.png" href="` + img + `">
-            <img src="` + img + `"/ />
-        </a>`
-      );
+
+      var element = document.createElement('a');
+      element.setAttribute('href', img);
+      element.setAttribute('download', 'canvasImage');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
     }
 
     function createPrintSize(){
@@ -40,7 +52,7 @@
       var printCtx = printSizeCanvas.getContext("2d");
       printSizeCanvas.height = 96 * 10;
       printSizeCanvas.width = 96 * 8;
-      
+
       var imgPrintMultiplier = Math.floor(printSizeCanvas.height / canvas.width);
       var imgPrintWidth = canvas.width * imgPrintMultiplier;
       var imgPrintHeight = canvas.height * imgPrintMultiplier;
