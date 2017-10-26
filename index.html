@@ -53,12 +53,11 @@
       printSizeCanvas.height = 96 * 10;
       printSizeCanvas.width = 96 * 8;
 
-      var imgPrintMultiplier = Math.floor(printSizeCanvas.height / canvas.width);
+      var imgPrintMultiplier = Math.floor(printSizeCanvas.width / canvas.width);
       var imgPrintWidth = canvas.width * imgPrintMultiplier;
       var imgPrintHeight = canvas.height * imgPrintMultiplier;
 
       printCtx.translate (printSizeCanvas.width / 2, printSizeCanvas.height / 2);
-      printCtx.rotate(Math.PI / 2);
 
       printCtx.rect(-imgPrintWidth/2, -imgPrintHeight/2, imgPrintWidth, imgPrintHeight);
       printCtx.stroke();
